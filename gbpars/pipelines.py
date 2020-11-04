@@ -25,13 +25,25 @@ class GbparsPipeline:
 class GbparsImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
-        for url in item.get('img'):
+        images = item.get('img',
+                          item['data'].get('profile_pic_url',
+                                           item['data'].get('display_url',
+                                                            []
+                                                            )
+                                           )
+                          )
+
+        if not isinstance(images, list):
+            images = [images]
+        for url in images:
             try:
                 yield Request(url)
             except Exception as e:
                 print(e)
 
     def item_completed(self, results, item, info):
-        if item.get('img'):
+        try:
             item['img'] = [itm[1] for itm in results if itm[0]]
+        except KeyError:
+            pass
         return item
