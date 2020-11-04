@@ -11,6 +11,8 @@ BOT_NAME = 'gbpars'
 LOG_ENABLE = True
 LOG_LEVEL = 'DEBUG'
 
+IMAGES_STORE = 'image'
+
 SPIDER_MODULES = ['gbpars.spiders']
 NEWSPIDER_MODULE = 'gbpars.spiders'
 
@@ -64,6 +66,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+    'gbpars.pipelines.GbparsImagesPipeline': 200,
     'gbpars.pipelines.GbparsPipeline': 300,
 
 }

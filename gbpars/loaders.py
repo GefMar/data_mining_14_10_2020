@@ -3,7 +3,7 @@ from scrapy import Selector
 from itemloaders.processors import TakeFirst, MapCompose
 from scrapy.loader import ItemLoader
 
-from .items import YoulaAutoItem
+from .items import YoulaAutoItem, HHVacancyItem
 
 
 def search_author_id(itm):
@@ -32,6 +32,10 @@ def get_specification_out(itms):
     return result
 
 
+def description_rwrite(items):
+    return ''.join(items)
+
+
 class YoulaAutoLoader(ItemLoader):
     default_item_class = YoulaAutoItem
     autor_in = MapCompose(search_author_id, create_user_url)
@@ -40,3 +44,13 @@ class YoulaAutoLoader(ItemLoader):
     specifications_in = MapCompose(get_specification)
     specifications_out = get_specification_out
     url_out = TakeFirst()
+
+
+class HHVacancyLoader(ItemLoader):
+    default_item_class = HHVacancyItem
+    title_out = TakeFirst()
+    url_out = TakeFirst()
+    description_in = ''.join
+    description_out = TakeFirst()
+    salary_in = ''.join
+    salary_out = TakeFirst()
