@@ -14,17 +14,20 @@ class YoulaSpider(scrapy.Spider):
     }
 
     def parse(self, response, **kwargs):
+        test_item = {'data': ['hello']}
         for url in response.xpath(self.xpath['brands']):
-            yield response.follow(url, callback=self.brand_parse)
+            yield response.follow(url, callback=self.brand_parse, cb_kwargs={'test_item': test_item})
 
     def brand_parse(self, response, **kwargs):
+        kwargs['test_item']['data'].append("brand_parse")
         for url in response.xpath(self.xpath['pagination']):
             yield response.follow(url, callback=self.brand_parse)
 
         for url in response.xpath(self.xpath['ads']):
-            yield response.follow(url, callback=self.ads_parse)
+            yield response.follow(url, callback=self.ads_parse, cb_kwargs=kwargs)
 
     def ads_parse(self, response, **kwargs):
+        print(1)
         loader = YoulaAutoLoader(response=response)
         loader.add_xpath('title', '//div[contains(@class, "AdvertCard_advertTitle")]/text()')
         loader.add_xpath('img', '//div[contains(@class, "PhotoGallery_block")]//img/@src')

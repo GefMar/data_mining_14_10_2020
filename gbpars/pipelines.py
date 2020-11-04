@@ -26,11 +26,11 @@ class GbparsImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         images = item.get('img',
-                          item['data'].get('profile_pic_url',
-                                           item['data'].get('display_url',
-                                                            []
-                                                            )
-                                           )
+                          item.get('data', {}).get('profile_pic_url',
+                                                   item.get('data', {}).get('display_url',
+                                                                            []
+                                                                            )
+                                                   )
                           )
 
         if not isinstance(images, list):
