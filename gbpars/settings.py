@@ -9,7 +9,7 @@
 
 BOT_NAME = 'gbpars'
 LOG_ENABLE = True
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 IMAGES_STORE = 'image'
 
